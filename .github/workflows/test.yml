@@ -1,0 +1,101 @@
+name: Test and lint
+
+on:
+  pull_request:
+    paths:
+      - '**.yml'
+      - '**.yaml'
+  push:
+    paths:
+      - '**.yml'
+      - '**.yaml'
+
+jobs:
+  lint:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7.x
+      - name: Restore pip cache if available
+        uses: actions/cache@v1
+        id: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ matrix.ansible-version }}-pip
+      - name: Install Ansible ${{ matrix.ansible-version }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible-lint
+      - name: Lint ansible role
+        run: ansible-lint **.yml
+  test:
+    runs-on: ubuntu-18.04
+    needs: lint
+    strategy:
+      matrix:
+        ansible-version:
+          - "2.7.15"
+          - "2.8.7"
+          - "2.9.2"
+        singularity-version:
+          - "3.3.0"
+          - "3.4.2"
+          - "3.5.2"
+        golang-version:
+          - "1.12.14"
+          - "1.13.5"
+        exclude:
+          - singularity-version: "3.0.3"
+            golang-version: "1.13.5"
+          - singularity-version: "3.1.1"
+            golang-version: "1.13.5"
+          - singularity-version: "3.2.1"
+            golang-version: "1.13.5"
+          - singularity-version: "3.3.0"
+            golang-version: "1.13.5"
+          - singularity-version: "3.4.2"
+            golang-version: "1.13.5"
+          - singularity-version: "3.5.2"
+            golang-version: "1.12.14"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Golang ${{ matrix.golang-version }}
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.golang-version }}
+      - name: Set up Python 3.7.x
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7.x
+      - name: Restore pip cache if available
+        uses: actions/cache@v1
+        id: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ matrix.ansible-version }}-pip
+      - name: Install Ansible ${{ matrix.ansible-version }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible==${{ matrix.ansible-version }}
+      - name: Restore ansible fact cache if available
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/facts
+          key: ${{ runner.os }}-${{ matrix.ansible-version }}-facts
+      - name: Restore role dependencies if available
+        uses: actions/cache@v1
+        with:
+          path: /etc/ansible/roles
+          key: ${{ runner.os }}-ansible-galaxy-2.2.5
+      - name: Run ansible playbook
+        run: |
+          ansible-galaxy install gantsign.golang,2.2.5
+          ansible-playbook tests/test.yml -e golang_version=${{ matrix.golang-version }} -e singularity_version=${{ matrix.singularity-version }} -e ansible_python_interpreter=/usr/bin/python3
+        env:
+          ANSIBLE_CACHE_PLUGIN: jsonfile
+          ANSIBLE_CACHE_PLUGIN_CONNECTION: ~/.cache/facts
+          ANSIBLE_CACHE_PLUGIN_TIMEOUT: 604800
+          ANSIBLE_GATHERING: smart
