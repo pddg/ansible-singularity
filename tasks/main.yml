@@ -10,7 +10,7 @@
 - name: Assert that the compatibility of golang version and Singularity version
   assert:
     that: |
-      (singularity_version is version('3.5', '<') and golang_version is version('1.13', '<')) or 
+      (singularity_version is version('3.5', '<') and golang_version is version('1.13', '<')) or
       (singularity_version is version('3.5', '>=') and golang_version is version('1.13', '>='))
     fail_msg: "Singularity {{ singularity_version }} is not compatible with golang {{ golang_version }}."
     success_msg: "Go mod is {{ golang_version is version('1.13', '>=') | ternary('enabled', 'disabled') }}."
