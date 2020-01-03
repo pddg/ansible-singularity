@@ -13,5 +13,5 @@
     - ../../
   vars:
     golang_gopath: /opt/go/packages
-    golang_version: 1.12.5
-    singularity_version: 3.4.0
+    golang_version: 1.13
+    singularity_version: 3.5.2

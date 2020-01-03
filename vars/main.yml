@@ -1,0 +1,2 @@
+---
+singularity_repo_path: "{{ golang_gopath }}/src/github.com/sylabs/singularity"
