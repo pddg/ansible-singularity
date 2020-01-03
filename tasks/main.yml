@@ -1,4 +1,20 @@
 ---
+- name: Assert that GOPATH is given
+  assert:
+    that:
+      - golang_gopath is defined
+      - golang_gopath|ternary(golang_gopath, "")|length > 0
+    fail_msg: "'golang_gopath' is not properly configured."
+    success_msg: "GOPATH is '{{ golang_gopath }}'"
+
+- name: Assert that the compatibility of golang version and Singularity version
+  assert:
+    that: |
+      (singularity_version is version('3.5', '<') and golang_version is version('1.13', '<')) or 
+      (singularity_version is version('3.5', '>=') and golang_version is version('1.13', '>'))
+    fail_msg: "Singularity {{ singularity_version }} is not compatible with golang {{ golang_version }}."
+    success_msg: "Go mod is {{ golang_version >= 1.13 | ternary('enabled', 'disabled') }}."
+
 - name: Gather os specific variables
   include_vars: "{{ item }}"
   with_first_found:
