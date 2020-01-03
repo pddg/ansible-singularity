@@ -1,6 +1,6 @@
 # Ansible Role: Singularity
 
-[![Build Status](https://travis-ci.org/abims-sbr/ansible-singularity.svg?branch=master)](https://travis-ci.org/abims-sbr/ansible-singularity)
+[![Actions Status](https://github.com/pddg/ansible-singularity/workflows/Test%20and%20lint/badge.svg)](https://github.com/pddg/ansible-singularity/actions)
 
 An Ansible Role that installs [Singularity](https://www.sylabs.io/singularity/) on Linux. This role supports Singularity >= 3.0.
 
