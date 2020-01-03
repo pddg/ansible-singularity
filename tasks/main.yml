@@ -11,9 +11,9 @@
   assert:
     that: |
       (singularity_version is version('3.5', '<') and golang_version is version('1.13', '<')) or 
-      (singularity_version is version('3.5', '>=') and golang_version is version('1.13', '>'))
+      (singularity_version is version('3.5', '>=') and golang_version is version('1.13', '>='))
     fail_msg: "Singularity {{ singularity_version }} is not compatible with golang {{ golang_version }}."
-    success_msg: "Go mod is {{ golang_version >= 1.13 | ternary('enabled', 'disabled') }}."
+    success_msg: "Go mod is {{ golang_version is version('1.13', '>=') | ternary('enabled', 'disabled') }}."
 
 - name: Gather os specific variables
   include_vars: "{{ item }}"
@@ -43,14 +43,14 @@
 
 - name: singularity | create directory for singularity
   file:
-    path: "{{ golang_install_dir }}/src/github.com/sylabs/"
+    path: "{{ singularity_repo_path | dirname }}"
     recurse: yes
 
 - name: singularity | clone the Singularity repository
   git:
     repo: https://github.com/sylabs/singularity.git
-    version: v{{ singularity_version }}
-    dest: "{{ golang_install_dir }}/src/github.com/sylabs/singularity"
+    version: "v{{ singularity_version }}"
+    dest: "{{ singularity_repo_path }}"
 
 - name: singularity | check singularity installed version
   command: 'bash -c "singularity --version | grep \"{{ singularity_version }}\""'
@@ -61,7 +61,7 @@
 - name: singularity | compile the Singularity binary | mconfig
   command: ./mconfig
   args:
-    chdir: "{{ golang_install_dir }}/src/github.com/sylabs/singularity"
+    chdir: "{{ singularity_repo_path }}"
   environment:
     PATH: '{{ golang_install_dir }}/bin:{{ ansible_env.PATH }}'
     GOROOT: '{{ golang_install_dir }}'
@@ -72,7 +72,7 @@
 
 - name: singularity | compile the Singularity binary | make
   make:
-    chdir: "{{ golang_install_dir }}/src/github.com/sylabs/singularity/builddir"
+    chdir: "{{ singularity_repo_path }}/builddir"
   environment:
     PATH: '{{ golang_install_dir }}/bin:{{ ansible_env.PATH }}'
     GOROOT: '{{ golang_install_dir }}'
@@ -84,7 +84,7 @@
 - name: singularity | compile the Singularity binary | make install
   make:
     target: install
-    chdir: "{{ golang_install_dir }}/src/github.com/sylabs/singularity/builddir"
+    chdir: "{{ singularity_repo_path }}/builddir"
   environment:
     PATH: '{{ golang_install_dir }}/bin:{{ ansible_env.PATH }}'
     GOROOT: '{{ golang_install_dir }}'
