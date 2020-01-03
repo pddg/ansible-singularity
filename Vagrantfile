@@ -45,6 +45,7 @@ Vagrant.configure("2") do |config|
           ansible.playbook = "tests/vagrant.yml"
           ansible.verbose = "vv"
           ansible.limit = "all"
+          ansible.raw_ssh_args = ["-o ControlMaster=auto", "-o ControlPersist=60s"]
         end
       end
     end
