@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/abims-sbr/ansible-singularity.svg?branch=master)](https://travis-ci.org/abims-sbr/ansible-singularity)
 
-An Ansible Role that installs [Singularity](https://www.sylabs.io/singularity/) on Linux.
+An Ansible Role that installs [Singularity](https://www.sylabs.io/singularity/) on Linux. This role supports Singularity >= 3.0.
 
 ## Requirements
 
@@ -14,7 +14,7 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```yaml
 # Singularity target version
-singularity_version: "3.0.3"
+singularity_version: "3.5.2"
 ```
 
 From the role gantsign.golang
@@ -27,6 +27,17 @@ golang_gopath: /opt/go/packages
 # Base installation directory the Go language SDK distribution
 golang_install_dir: '/opt/go/{{ golang_version }}'
 ```
+
+Please refer the compatibility table of Singularity and Golang version.
+
+| Singularity/Go | 1.11.x | 1.12.x | 1.13.x |
+| -------------- | :----: | :----: | :----: |
+| 3.0.x          | o      | o      | x      |
+| 3.1.x          | o      | o      | x      |
+| 3.2.x          | o      | o      | x      |
+| 3.3.x          | o      | o      | x      |
+| 3.4.x          | o      | o      | x      |
+| 3.5.x          | x      | x      | o      |
 
 ## Dependencies
 
