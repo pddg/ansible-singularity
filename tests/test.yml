@@ -4,6 +4,11 @@
   connection: local
   become: true
   pre_tasks:
+    - name: apt update
+      apt:
+        cache_valid_time: 3600
+        update_cache: yes
+      when: ansible_os_family == "Debian"
     - name: create a folder for go
       file:
         path: "{{ golang_install_dir }}"
@@ -12,4 +17,4 @@
     - ../../
   vars:
     golang_gopath: /opt/go/packages
-    singularity_version: "3.0.3"
+    singularity_version: "3.5.2"
