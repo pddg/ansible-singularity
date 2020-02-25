@@ -14,7 +14,7 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```yaml
 # Singularity target version
-singularity_version: "3.5.2"
+singularity_version: "3.5.3"
 ```
 
 From the role gantsign.golang
