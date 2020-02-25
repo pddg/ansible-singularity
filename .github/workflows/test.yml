@@ -43,7 +43,7 @@ jobs:
         singularity-version:
           - "3.3.0"
           - "3.4.2"
-          - "3.5.2"
+          - "3.5.3"
         golang-version:
           - "1.12.14"
           - "1.13.5"
@@ -58,7 +58,7 @@ jobs:
             golang-version: "1.13.5"
           - singularity-version: "3.4.2"
             golang-version: "1.13.5"
-          - singularity-version: "3.5.2"
+          - singularity-version: "3.5.3"
             golang-version: "1.12.14"
     steps:
       - uses: actions/checkout@v1
