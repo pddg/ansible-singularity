@@ -7,5 +7,7 @@ singularity_software_base:
   - libgpgme11-dev
   - squashfs-tools
   - libseccomp-dev
+  - wget
   - pkg-config
   - git
+  - cryptsetup-bin

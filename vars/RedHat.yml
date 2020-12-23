@@ -6,3 +6,6 @@ singularity_software_base:
   - libuuid-devel
   - gpgme-devel
   - squashfs-tools
+  - libseccomp-devel
+  - cryptsetup
+  - wget
