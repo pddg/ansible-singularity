@@ -30,14 +30,16 @@ golang_install_dir: '/opt/go/{{ golang_version }}'
 
 Please refer the compatibility table of Singularity and Golang version.
 
-| Singularity/Go | 1.11.x | 1.12.x | 1.13.x |
-| -------------- | :----: | :----: | :----: |
-| 3.0.x          | o      | o      | x      |
-| 3.1.x          | o      | o      | x      |
-| 3.2.x          | o      | o      | x      |
-| 3.3.x          | o      | o      | x      |
-| 3.4.x          | o      | o      | x      |
-| 3.5.x          | x      | x      | o      |
+| Singularity/Go | 1.11.x | 1.12.x | 1.13.x | 1.14.x |
+| -------------- | :----: | :----: | :----: | :----: |
+| 3.0.x          | o      | o      | x      | x      |
+| 3.1.x          | o      | o      | x      | x      |
+| 3.2.x          | o      | o      | x      | x      |
+| 3.3.x          | o      | o      | x      | x      |
+| 3.4.x          | o      | o      | x      | x      |
+| 3.5.x          | x      | x      | o      | △      |
+| 3.6.x          | x      | x      | o      | △      |
+| 3.7.x          | x      | x      | o      | o      |
 
 ## Dependencies
 
