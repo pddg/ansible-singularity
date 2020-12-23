@@ -50,21 +50,21 @@ jobs:
           - "1.14.13"
         exclude:
           - singularity-version: "3.4.2"
-            golang-version: "1.13.5"
+            golang-version: "1.13.15"
           - singularity-version: "3.4.2"
-            golang-version: "1.14.12"
+            golang-version: "1.14.13"
           - singularity-version: "3.5.3"
             golang-version: "1.12.14"
           - singularity-version: "3.5.3"
-            golang-version: "1.14.12"
+            golang-version: "1.14.13"
           - singularity-version: "3.6.4"
             golang-version: "1.12.14"
           - singularity-version: "3.6.4"
-            golang-version: "1.14.12"
+            golang-version: "1.14.13"
           - singularity-version: "3.7.0"
             golang-version: "1.12.14"
           - singularity-version: "3.7.0"
-            golang-version: "1.13.5"
+            golang-version: "1.13.15"
     steps:
       - uses: actions/checkout@v1
       - name: Set up Golang ${{ matrix.golang-version }}
