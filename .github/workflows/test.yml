@@ -101,10 +101,10 @@ jobs:
         uses: actions/cache@v1
         with:
           path: /etc/ansible/roles
-          key: ${{ runner.os }}-ansible-galaxy-2.2.5
+          key: ${{ runner.os }}-ansible-galaxy-{{ hashFiles('requirements.yml') }}
       - name: Run ansible playbook
         run: |
-          ansible-galaxy install gantsign.golang,2.2.5
+          ansible-galaxy install -r requirements.yml
           ansible-playbook tests/test.yml -e golang_version=${{ matrix.golang-version }} -e singularity_version=${{ matrix.singularity-version }} -e ansible_python_interpreter=/usr/bin/python3
         env:
           ANSIBLE_CACHE_PLUGIN: jsonfile
